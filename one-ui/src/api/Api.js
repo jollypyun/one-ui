@@ -1,17 +1,7 @@
 import axios from 'axios';
 
-const API = axios.create({
-    baseURL: 'http://localhost:9010'
-});
 
-API.interceptors.request.use(
-    function (error) {
-        console.log(error); 
-        return Promise.reject(error);
-    }
-)
-
-API.interceptors.response.use(
+axios.interceptors.response.use(
     function (response) {
         return response;
     },
@@ -21,5 +11,4 @@ API.interceptors.response.use(
     }
 )
 
-
-export default API;
+export default axios;

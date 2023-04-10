@@ -1,18 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 import API from "../api/Api";
+import axios from "../api/Api";
 
 function NationList() {
     const [nationData, setNationData] = useState([]);
     
     const getNationData = useCallback(() => {
-        API.get("/nation/alllNation")
+        axios.get("/nation/alllNation")
         .then((res) => {
             console.log(res);
         })
         .catch((e) => {
             console.log(`error`);
         })
-    })
+    }, [])
 
     useEffect(() => {
         getNationData();
