@@ -8,7 +8,7 @@ const Nation = (props) => {
     const { open, setOpen, callback } = props;
     const [openConfirm, setOpenConfirm] = useState(false);
 
-    const { handleSubmit, reset } = useForm({
+    const { handleSubmit, reset, register } = useForm({
         mode: "onChange",
         reValidateMode: "onChange"
     }, []);
@@ -59,10 +59,18 @@ const Nation = (props) => {
                         <dl>
                             <div>
                                 <dt>
-                                    <span>{`이름`}</span>
+                                    <span>{`국가명`}</span>
                                 </dt>
                                 <dd>
+                                    <input type="search"
+                                    placeholder="영어로 작성하세요"
+                                    {...register("name", {
+                                        required: {
+                                            value: true
+                                        }
+                                    })
 
+                                    }/>
                                 </dd>
                             </div>
                         </dl>
