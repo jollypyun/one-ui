@@ -1,12 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
-import API from "../api/Api";
 import axios from "../api/Api";
 
 function NationList() {
     const [nationData, setNationData] = useState([]);
     
     const getNationData = useCallback(() => {
-        axios.get("/nation/alllNation")
+        axios.get("http://localhost:9010/nation/allNation")
         .then((res) => {
             console.log(res);
         })
@@ -21,6 +20,7 @@ function NationList() {
 
     return (
         <div>
+            <h1>국가 조회</h1>
             <table className="table-default">
                 <thead>
                     <tr>

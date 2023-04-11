@@ -5,7 +5,6 @@ const Headerbar = (props) => {
     const urlPath = location.pathname.split('/')
     const {pageList} = props
 
-
     return (
         <div>
             <h1>목록</h1>
