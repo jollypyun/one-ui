@@ -3,12 +3,19 @@ import axios from "../api/Api";
 import Nation from './Nation'
 
 function NationList() {
-    const [openAdd, isOpenAdd] = useState(false);
+    const [openNation, isOpenNation] = useState(false);
+    const [edit, isEdit] = useState(false);
     const [nationData, setNationData] = useState([]);
 
     const handleAdd = useCallback(() => {
-        isOpenAdd(true);
-    }, [isOpenAdd]);
+        isEdit(false);
+        isOpenNation(true);
+    }, [isOpenNation, isEdit]);
+
+    const handleUpdate = useCallback((data) => {
+        isEdit(true);
+        isOpenNation(true)
+    }, [isEdit, isOpenNation])
     
     const getNationData = useCallback(() => {
         axios.get("http://localhost:9010/nation/allNation")
@@ -51,20 +58,22 @@ function NationList() {
                                 <td>{data.nationalCode}</td>
                                 <td>{data.isd}</td>
                                 <td>
-                                    <button type="button">{`수정`}</button>
+                                    <button type="button" onClick={() => handleUpdate(data)}>{`수정`}</button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 <p>
-                    <button type="button" onClick={handleAdd}>{`추가`}</button>
+                    <button type="button" onClick={() => handleAdd()}>{`추가`}</button>
                 </p>
             </div>
             <Nation 
-                open={openAdd}
-                setOpen={isOpenAdd}
+                open={openNation}
+                setOpen={isOpenNation}
                 callback={getNationData}
+                isEdit={edit}
+                data={data}
             />
         </>
     )

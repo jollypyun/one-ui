@@ -25,6 +25,24 @@ const { open, setOpen, onSubmit, onClose, title, children } = props;
                 </IconButton>
             </DialogTitle>
             <DialogContent>{children}</DialogContent>
+            <DialogActions>
+                <button type='button'
+                    onClick={() => {
+                        onSubmit();
+                    }}
+                >
+                    {`확인`}
+                </button>
+                <button
+                    type='button'
+                    onClick={() => {
+                        setOpen(false);
+                        onClose();
+                    }}
+                >
+                    {`취소`}
+                </button>
+            </DialogActions>
         </Dialog>
     )
 };

@@ -14,13 +14,31 @@ const Nation = (props) => {
     }, []);
 
     const onSubmit = useCallback((data) => {
+        const engRegex = /[a-zA-Z]/g;
+        const codeRegex = /[A-Z]/g;
+
+        if(!engRegex.test(data.name)) {
+            alert(`국가명은 영어만 입력가능합니다.`);
+            return;
+        }
+
+        if(!engRegex.test(data.capital)) {
+            alert(`수도명은 영어만 입력가능합니다.`);
+            return;
+        }
+
+        if(data.code.length !== 3 || !codeRegex.test(data.code)) {
+            alert(`국가코드를 잘못 입력하였습니다.`);
+            return;
+        }
+
         const datas = {
             name: data.name,
             capital: data.capital,
             nationalCode: data.code,
             isd: data.isd
         }
-        axios.post("http:localhost:9010/nation/oneNation", datas)
+        axios.post("http://localhost:9010/nation/oneNation", datas)
         .then((res) => {
             alert(`success`);
             callback();
@@ -30,11 +48,11 @@ const Nation = (props) => {
         });
         setOpen(false);
         reset();
-    });
+    }, [reset, setOpen, callback]);
 
     const onError = useCallback(() => {
         alert(`error 발생`);
-    });
+    }, []);
 
     const handleConfirm = useCallback(() => {
         setOpenConfirm(true);
@@ -63,14 +81,52 @@ const Nation = (props) => {
                                 </dt>
                                 <dd>
                                     <input type="search"
-                                    placeholder="영어로 작성하세요"
-                                    {...register("name", {
-                                        required: {
-                                            value: true
-                                        }
-                                    })
-
+                                        placeholder="영어로 작성하세요"
+                                        {...register("name", {
+                                            required: {
+                                                value: true
+                                            }
+                                        })
                                     }/>
+                                </dd>
+                                <dt>
+                                    <span>{`수도명`}</span>
+                                </dt>
+                                <dd>
+                                    <input type="search"
+                                        placeholder="영어로 작성하세요"
+                                        {...register("capital", {
+                                            required: {
+                                                value: true
+                                            }
+                                        })}
+                                    />
+                                </dd>
+                                <dt>
+                                    <span>{`국가코드(3자리)`}</span>
+                                </dt>
+                                <dd>
+                                    <input type="search"
+                                        placeholder="영어, 3글자 코드"
+                                        {...register("code", {
+                                            required: {
+                                                value: true
+                                            }
+                                        })}
+                                    />
+                                </dd>
+                                <dt>
+                                    <span>{`국제통화번호`}</span>
+                                </dt>
+                                <dd>
+                                    <input type="search"
+                                        placeholder="국제통화번호"
+                                        {...register("isd", {
+                                            required: {
+                                                value: true
+                                            }
+                                        })}
+                                    />
                                 </dd>
                             </div>
                         </dl>
@@ -81,6 +137,7 @@ const Nation = (props) => {
                 open={openConfirm}
                 setOpen={setOpenConfirm}
                 onConfirm={handleSubmit(onSubmit, onError)}
+                title={`국가 추가 확인`}
             >
                 <div>{`등록하시겠습니까?`}</div>
             </ConfirmDialog>
