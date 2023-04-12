@@ -1,17 +1,35 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import PopupDialog from "../popup/PopupDialog";
 import axios from "axios";
 import ConfirmDialog from "../popup/ConfirmDialog";
 
 const Nation = (props) => {
-    const { open, setOpen, callback } = props;
+    const { open, setOpen, callback, isEdit, item } = props;
     const [openConfirm, setOpenConfirm] = useState(false);
 
+    const InitialValues = useMemo(() => {
+        if(isEdit) {
+            return {
+                name: item.name,
+                capital: item.capital,
+                code: item.nationalCode,
+                isd: item.isd
+            }
+        } 
+        return {
+            name: null,
+            capital: null,
+            code: null,
+            isd: null
+        }
+    }, [item, isEdit]);
+
     const { handleSubmit, reset, register } = useForm({
+        defaultValues: InitialValues,
         mode: "onChange",
         reValidateMode: "onChange"
-    }, []);
+    }, [InitialValues]);
 
     const onSubmit = useCallback((data) => {
         const engRegex = /[a-zA-Z]/g;
@@ -38,17 +56,28 @@ const Nation = (props) => {
             nationalCode: data.code,
             isd: data.isd
         }
-        axios.post("http://localhost:9010/nation/oneNation", datas)
-        .then((res) => {
-            alert(`success`);
-            callback();
-        })
-        .catch((e) => {
-            alert(`error`);
-        });
+        if(isEdit) {
+            axios.put("http://localhost:9010/nation/oneNation", datas)
+            .then((res) => {
+
+            })
+            .catch((e) => {
+                alert(`error ${e}`)
+            });
+        }
+        else {
+            axios.post("http://localhost:9010/nation/oneNation", datas)
+            .then((res) => {
+                alert(`success`);
+                callback();
+            })
+            .catch((e) => {
+                alert(`error`);
+            });
+        }
         setOpen(false);
         reset();
-    }, [reset, setOpen, callback]);
+    }, [reset, setOpen, callback, isEdit]);
 
     const onError = useCallback(() => {
         alert(`error 발생`);
@@ -62,6 +91,18 @@ const Nation = (props) => {
         setOpen(false);
         reset();
     }, [setOpen, reset]);
+
+    useEffect(() => {
+        if(item === null || item === undefined) {
+            return ;
+        }
+        reset({
+            name: item.name,
+            capital: item.capital,
+            code: item.nationalCode,
+            isd: item.isd
+        })
+    }, [item, reset]);
 
     return (
         <>
@@ -137,9 +178,9 @@ const Nation = (props) => {
                 open={openConfirm}
                 setOpen={setOpenConfirm}
                 onConfirm={handleSubmit(onSubmit, onError)}
-                title={`국가 추가 확인`}
+                title={`국가 ${isEdit ? `수정` : `등록`} 확인`}
             >
-                <div>{`등록하시겠습니까?`}</div>
+                <div>{`${isEdit ? `수정` : `등록`}하시겠습니까?`}</div>
             </ConfirmDialog>
         </>
     )
