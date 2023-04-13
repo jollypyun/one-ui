@@ -5,25 +5,17 @@ import axios from "axios";
 import ConfirmDialog from "../popup/ConfirmDialog";
 
 const Nation = (props) => {
-    const { open, setOpen, callback, isEdit, item } = props;
+    const { open, setOpen, callback, edit, item } = props;
     const [openConfirm, setOpenConfirm] = useState(false);
 
     const InitialValues = useMemo(() => {
-        if(isEdit) {
-            return {
-                name: item.name,
-                capital: item.capital,
-                code: item.nationalCode,
-                isd: item.isd
-            }
-        } 
         return {
             name: null,
             capital: null,
             code: null,
             isd: null
         }
-    }, [item, isEdit]);
+    }, []);
 
     const { handleSubmit, reset, register } = useForm({
         defaultValues: InitialValues,
@@ -56,28 +48,29 @@ const Nation = (props) => {
             nationalCode: data.code,
             isd: data.isd
         }
-        if(isEdit) {
-            axios.put("http://localhost:9010/nation/oneNation", datas)
+        if(edit) {
+            axios.post("http://localhost:9010/nation/oneNation_up", datas)
             .then((res) => {
-
+                callback();
+                alert(`${res.data.data.name}의 내용을 정상적으로 변경했습니다.`);
             })
             .catch((e) => {
-                alert(`error ${e}`)
+                alert(`${e}`)
             });
         }
         else {
-            axios.post("http://localhost:9010/nation/oneNation", datas)
+            axios.post("http://localhost:9010/nation/oneNation_in", datas)
             .then((res) => {
-                alert(`success`);
                 callback();
+                alert(`${res.data.data.name}의 내용을 정상적으로 생성했습니다.`);
             })
             .catch((e) => {
-                alert(`error`);
+                alert(`${e}`);
             });
         }
         setOpen(false);
         reset();
-    }, [reset, setOpen, callback, isEdit]);
+    }, [reset, setOpen, callback, edit]);
 
     const onError = useCallback(() => {
         alert(`error 발생`);
@@ -94,6 +87,12 @@ const Nation = (props) => {
 
     useEffect(() => {
         if(item === null || item === undefined) {
+            reset({
+                name: null,
+                capital: null,
+                code: null,
+                isd: null
+            });
             return ;
         }
         reset({
@@ -178,9 +177,9 @@ const Nation = (props) => {
                 open={openConfirm}
                 setOpen={setOpenConfirm}
                 onConfirm={handleSubmit(onSubmit, onError)}
-                title={`국가 ${isEdit ? `수정` : `등록`} 확인`}
+                title={`국가 ${edit ? `수정` : `등록`} 확인`}
             >
-                <div>{`${isEdit ? `수정` : `등록`}하시겠습니까?`}</div>
+                <div>{`${edit ? `수정` : `등록`}하시겠습니까?`}</div>
             </ConfirmDialog>
         </>
     )
