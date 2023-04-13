@@ -5,16 +5,19 @@ import Nation from './Nation'
 function NationList() {
     const [openNation, isOpenNation] = useState(false);
     const [edit, isEdit] = useState(false);
+    const [value, setValue] = useState();
     const [nationData, setNationData] = useState([]);
 
     const handleAdd = useCallback(() => {
+        setValue();
         isEdit(false);
         isOpenNation(true);
     }, [isOpenNation, isEdit]);
 
     const handleUpdate = useCallback((data) => {
         isEdit(true);
-        isOpenNation(true)
+        isOpenNation(true);
+        setValue(data);
     }, [isEdit, isOpenNation])
     
     const getNationData = useCallback(() => {
@@ -73,7 +76,7 @@ function NationList() {
                 setOpen={isOpenNation}
                 callback={getNationData}
                 isEdit={edit}
-                data={data}
+                item={value}
             />
         </>
     )
