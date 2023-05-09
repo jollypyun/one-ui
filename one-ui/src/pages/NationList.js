@@ -49,12 +49,13 @@ function NationList() {
     const getNationData = useCallback(() => {
         axios.get("http://localhost:9010/nation/allNation")
         .then((res) => {
+            console.log(res.data.data);
             setNationData(res.data.data);
         })
         .catch((e) => {
             alert(`${e}`);
         })
-    }, []);
+    }, [setNationData]);
 
     const deleteNation = useCallback(() => {
         if(checkedNation.length === 0) {
