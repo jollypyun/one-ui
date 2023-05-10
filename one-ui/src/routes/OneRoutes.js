@@ -2,6 +2,8 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import { useMemo, useState } from 'react';
 import NationList from '../pages/NationList';
 import Headerbar from '../layout/Headerbar';
+import Login from '../pages/Login';
+import Join from '../pages/Join';
 
 const OneRoutes = () => {
     const category = useMemo(() => [
@@ -15,6 +17,8 @@ const OneRoutes = () => {
         <Router>
             <Headerbar pageList={pageList} />
             <Routes>
+                <Route path='/auth/join' element={<Join />} />
+                <Route path='/auth/login' element={<Login />} />
                 <Route path='/nation/allNation' element={<NationList />} />
             </Routes>
         </Router>

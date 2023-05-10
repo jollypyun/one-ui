@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
 const Headerbar = (props) => {
@@ -5,9 +6,9 @@ const Headerbar = (props) => {
     const urlPath = location.pathname.split('/')
     const {pageList} = props
 
+    if(location.pathname === "/login" || "/join") return null;
     return (
         <div>
-            <h1>목록</h1>
             <ul>
                 {pageList.map((item) => {
                     const {text, path} = item;
@@ -22,6 +23,9 @@ const Headerbar = (props) => {
                     )
                 })}
             </ul>
+            <Link key={`Login`} to={"/auth/login"}>
+                <Button>Login</Button>
+            </Link>
         </div>
     )
 }
