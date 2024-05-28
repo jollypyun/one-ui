@@ -1,6 +1,6 @@
 'use client'
 
-import { initNeutron, initPhoton } from "@/constant/initData"
+import { initNeutron, initPhoton } from "../../constant/initData"
 import { useState } from "react"
 
 const ElementComponent = () => {
