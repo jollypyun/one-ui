@@ -1,5 +1,6 @@
 'use client'
 
+import { getOneElement } from "@/api/search"
 import { initNeutron, initPhoton } from "../../constant/initData"
 import { useState } from "react"
 
@@ -8,6 +9,9 @@ const ElementComponent = () => {
     const [neutron, setNeutron] = useState(initNeutron)
 
     const handleElement = () => {
+        const data = getOneElement(photon, neutron)
+
+        console.log(data);
         
     }
 

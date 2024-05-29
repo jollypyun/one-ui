@@ -13,7 +13,8 @@ const onResponse = (response: AxiosResponse): AxiosResponse => {
 
 
 const api = axios.create({
-    baseURL: process.env['NEXT_PUBLIC_URL_LOCAL_SERVER'],
+    baseURL: 'http://localhost:9010',
+    // baseURL: process.env['NEXT_PUBLIC_URL_LOCAL_SERVER'],
     timeout: 1e4
 })
 
