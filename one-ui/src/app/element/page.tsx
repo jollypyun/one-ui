@@ -9,10 +9,7 @@ const ElementComponent = () => {
     const [neutron, setNeutron] = useState(initNeutron)
 
     const handleElement = () => {
-        const data = getOneElement(photon, neutron)
-
-        console.log(data);
-        
+        const data = getOneElement(photon,neutron)
     }
 
     return (
