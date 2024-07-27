@@ -13,7 +13,5 @@ export const getOneElement = async (photon: number, neutron: number) => {
         params: param
     })
 
-    console.log(data)
-
     return data
 }
