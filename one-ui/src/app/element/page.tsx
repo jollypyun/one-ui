@@ -14,6 +14,7 @@ const ElementComponent = () => {
 
     return (
         <>
+            <p className="text-blue-500">Choose and click</p>
             <div>
                 <span>Photon: </span>
                 <button type="button" onClick={() => setPhoton(photon-1)}>

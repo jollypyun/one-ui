@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import '../css/main.css'
 
 export const metadata: Metadata = {
     title: "원자 조회",
