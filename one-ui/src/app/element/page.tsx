@@ -14,9 +14,8 @@ const ElementComponent = () => {
 
     return (
         <>
-            <p className="text-blue-500">Choose and click</p>
             <div>
-                <span>Photon: </span>
+                <span className="text-violet-700 font-bold">Photon: </span>
                 <button type="button" onClick={() => setPhoton(photon-1)}>
                     -
                 </button>
@@ -26,7 +25,7 @@ const ElementComponent = () => {
                 </button>
             </div>
             <div>
-                <span>Neutron: </span>
+                <span className="text-violet-700 font-bold">Neutron: </span>
                 <button type="button" onClick={() => setNeutron(neutron-1)}>
                     -
                 </button>
